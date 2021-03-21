@@ -1,4 +1,4 @@
-
+profile: 'default'
 name: 'facebook_ads'
 version: '1.0.0'
 config-version: 2
@@ -12,6 +12,8 @@ models:
       materialized: view
 
 vars:
+  facebook_ads_schema: ravi_dbt_transformations
+  facebook_ads_database: forbestech-com 
   facebook_ads:
     account_history: "{{ ref('stg_facebook_ads__account_history') }}"
     ad_history: "{{ ref('stg_facebook_ads__ad_history') }}"
@@ -20,3 +22,4 @@ vars:
     campaign_history: "{{ ref('stg_facebook_ads__campaign_history') }}"
     creative_history: "{{ ref('stg_facebook_ads__creative_history') }}"
     url_tag: "{{ ref('stg_facebook_ads__url_tag') }}"
+    ad_insights: "{{ source('facebook_ads','ad_insights') }}"

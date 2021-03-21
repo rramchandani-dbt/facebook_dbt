@@ -14,6 +14,7 @@ with report as (
     from {{ var('account_history') }}
     where is_most_recent_record = true
 
+
 ), ads as (
 
     select *
@@ -32,6 +33,7 @@ with report as (
     from {{ var('campaign_history') }}
     where is_most_recent_record = true
 
+
 ), joined as (
 
     select
@@ -49,11 +51,8 @@ with report as (
         creatives.base_url,
         creatives.url_host,
         creatives.url_path,
-        creatives.utm_source,
-        creatives.utm_medium,
-        creatives.utm_campaign,
-        creatives.utm_content,
-        creatives.utm_term,
+        creatives.utm_sag,
+        creatives.utm_chnm1,
         sum(report.clicks) as clicks,
         sum(report.impressions) as impressions,
         sum(report.spend) as spend
@@ -68,7 +67,7 @@ with report as (
         on cast(ads.campaign_id as {{ dbt_utils.type_bigint() }}) = cast(campaigns.campaign_id as {{ dbt_utils.type_bigint() }})
     left join accounts
         on cast(report.account_id as {{ dbt_utils.type_bigint() }}) = cast(accounts.account_id as {{ dbt_utils.type_bigint() }})
-    {{ dbt_utils.group_by(19) }}
+    {{ dbt_utils.group_by(16) }}
 
 
 )
